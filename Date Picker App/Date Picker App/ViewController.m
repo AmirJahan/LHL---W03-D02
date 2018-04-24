@@ -1,29 +1,52 @@
-//
-//  ViewController.m
-//  Date Picker App
-//
-//  Created by Amir J on 4/24/18.
-//  Copyright © 2018 Cinard Digital Media Institute. All rights reserved.
-//
+
 
 #import "ViewController.h"
 
-@interface ViewController ()
 
-@end
 
 @implementation ViewController
 
-- (void)viewDidLoad {
+
+- (void)viewDidLoad
+{
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+    
+    UIDatePicker* myDatePickerView = [[UIDatePicker alloc] initWithFrame: CGRectMake(0, 0, 0, 0)];
+    
+    [myDatePickerView setDatePickerMode: UIDatePickerModeCountDownTimer];
+    [myDatePickerView setDatePickerMode: UIDatePickerModeDate];
+    
+    [myDatePickerView addTarget:self
+                         action:@selector(getDate:)
+               forControlEvents:UIControlEventValueChanged];
+    
+    [self.view addSubview: myDatePickerView];
 }
 
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+-(void)getDate:(id)sender
+{
+    NSDate* someDate = [sender date];
+    NSString* dateDes = [someDate descriptionWithLocale: [NSLocale currentLocale]];
+    
+    NSLog(@"%@", dateDes);
+    
+    
+    
+    NSCalendar* calendar = [NSCalendar currentCalendar];
+    NSDateComponents* compoNents = [calendar components:
+                                    NSCalendarUnitYear|
+                                    NSCalendarUnitMonth|
+                                    NSCalendarUnitDay
+                                               fromDate:someDate];
+    
+    int monthInt = (int) [compoNents month];
+    int dayInt = (int) [compoNents day];
+    
+    NSString* dayID = [NSString stringWithFormat:@"Day %i of the month %i", dayInt, monthInt];
+    
+    NSLog(@"%@", dayID);
+    
+    
 }
-
-
 @end
